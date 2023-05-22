@@ -5,15 +5,17 @@ The following parameters are configurable for the API Client:
 
 | Parameter | Type | Description |
 |  --- | --- | --- |
-| `Environment` | Environment | The API environment. <br> **Default: `Environment.Production`** |
-| `Timeout` | `TimeSpan` | Http client timeout.<br>*Default*: `TimeSpan.FromSeconds(100)` |
+| `environment` | Environment | The API environment. <br> **Default: `Environment.PRODUCTION`** |
+| `httpClientConfig` | [`ReadonlyHttpClientConfiguration`](http-client-configuration.md) | Http Client Configuration instance. |
 
 The API client can be initialized as follows:
 
-```csharp
-APIMATICCalculator.Standard.APIMATICCalculatorClient client = new APIMATICCalculator.Standard.APIMATICCalculatorClient.Builder()
-    .Environment(APIMATICCalculator.Standard.Environment.Production)
-    .Build();
+```java
+APIMATICCalculatorClient client = new APIMATICCalculatorClient.Builder()
+    .httpClientConfig(configBuilder -> configBuilder
+            .timeout(0))
+    .environment(Environment.PRODUCTION)
+    .build();
 ```
 
 ## APIMATIC CalculatorClient Class
@@ -22,34 +24,18 @@ The gateway for the SDK. This class acts as a factory for the Controllers and al
 
 ### Controllers
 
-| Name | Description |
-|  --- | --- |
-| SimpleCalculatorController | Gets SimpleCalculatorController controller. |
-
-### Properties
-
-| Name | Description | Type |
+| Name | Description | Return Type |
 |  --- | --- | --- |
-| HttpClientConfiguration | Gets the configuration of the Http Client associated with this client. | [`IHttpClientConfiguration`](http-client-configuration.md) |
-| Timeout | Http client timeout. | `TimeSpan` |
-| Environment | Current API environment. | `Environment` |
+| `getSimpleCalculatorController()` | Provides access to SimpleCalculator controller. | `SimpleCalculatorController` |
 
 ### Methods
 
 | Name | Description | Return Type |
 |  --- | --- | --- |
-| `GetBaseUri(Server alias = Server.Calculator)` | Gets the URL for a particular alias in the current environment and appends it with template parameters. | `string` |
-| `ToBuilder()` | Creates an object of the APIMATIC CalculatorClient using the values provided for the builder. | `Builder` |
-
-## APIMATIC CalculatorClient Builder Class
-
-Class to build instances of APIMATIC CalculatorClient.
-
-### Methods
-
-| Name | Description | Return Type |
-|  --- | --- | --- |
-| `HttpClientConfiguration(Action<`[`HttpClientConfiguration.Builder`](http-client-configuration-builder.md)`> action)` | Gets the configuration of the Http Client associated with this client. | `Builder` |
-| `Timeout(TimeSpan timeout)` | Http client timeout. | `Builder` |
-| `Environment(Environment environment)` | Current API environment. | `Builder` |
+| `shutdown()` | Shutdown the underlying HttpClient instance. | `void` |
+| `getEnvironment()` | Current API environment. | `Environment` |
+| `getHttpClient()` | The HTTP Client instance to use for making HTTP requests. | `HttpClient` |
+| `getHttpClientConfig()` | Http Client Configuration instance. | [`ReadonlyHttpClientConfiguration`](http-client-configuration.md) |
+| `getBaseUri(Server server)` | Get base URI by current environment | `String` |
+| `getBaseUri()` | Get base URI by current environment | `String` |
 
